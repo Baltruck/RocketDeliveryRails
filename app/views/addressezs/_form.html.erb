@@ -1,0 +1,32 @@
+<%= form_with(model: addressez) do |form| %>
+  <% if addressez.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(addressez.errors.count, "error") %> prohibited this addresses from being saved:</h2>
+
+      <ul>
+        <% addressez.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :street_address, style: "display: block" %>
+    <%= form.text_field :street_address %>
+  </div>
+
+  <div>
+    <%= form.label :city, style: "display: block" %>
+    <%= form.text_field :city %>
+  </div>
+
+  <div>
+    <%= form.label :postal_code, style: "display: block" %>
+    <%= form.text_field :postal_code %>
+  </div>
+
+  <div>
+  <%= form.submit "Submit", class: "btn btn-warning logo-gr-btn magin-top-btn" %>
+  </div>
+<% end %>

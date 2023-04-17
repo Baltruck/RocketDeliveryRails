@@ -1,0 +1,36 @@
+<p style="color: green"><%= notice %></p>
+
+<div class="container">
+  <h1 class="text-center">Product Orders</h1>
+
+  <table class="table table-striped custom-bordered mx-auto" style="max-width: 80%;">
+    <thead>
+      <tr>
+        <th class="text-center table-custom-head">Product</th>
+        <th class="text-center table-custom-head">Order</th>
+        <th class="text-center table-custom-head">Quantity</th>
+        <th class="text-center table-custom-head">Unit Cost</th>
+        <th class="text-center table-custom-head">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @product_orderzs.each do |product_orderz| %>
+        <tr>
+          <td class="text-center"><%= product_orderz.product.name %></td>
+          <td class="text-center"><%= product_orderz.order.id %></td>
+          <td class="text-center"><%= product_orderz.product_quantity %></td>
+          <td class="text-center"><%= product_orderz.product_unit_cost %></td>
+          <td class="text-center">
+            <%= link_to "Show", product_orderz, class: "btn btn-primary logo-gr-btn btn-sm me-2" %>
+            <%= link_to "Edit", edit_product_orderz_path(product_orderz), class: "btn btn-secondary logo-or-btn btn-sm me-2" %>
+            <%= link_to "Delete", product_orderz, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="text-center">
+    <%= link_to "New product order", new_product_orderz_path, class: "btn btn-warning logo-gr-btn btn-lg m-3" %>
+  </div>
+</div>

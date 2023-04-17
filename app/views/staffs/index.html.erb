@@ -1,0 +1,32 @@
+<p style="color: green"><%= notice %></p>
+
+<div class="container">
+  <h1 class="text-center">Employees</h1>
+
+  <table class="table table-striped custom-bordered mx-auto" style="max-width: 80%;">
+    <thead>
+      <tr>
+        <th class="text-center table-custom-head">Phone</th>
+        <th class="text-center table-custom-head">Email</th>
+        <th class="text-center table-custom-head">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @staffs.each do |staff| %>
+        <tr>
+          <td class="text-center"><%= staff.phone %></td>
+          <td class="text-center"><%= staff.email %></td>
+          <td class="text-center">
+            <%= link_to "Show", staff, class: "btn btn-primary logo-gr-btn btn-sm me-2" %>
+            <%= link_to "Edit", edit_staff_path(staff), class: "btn btn-secondary logo-or-btn btn-sm me-2" %>
+            <%= link_to "Delete", staff, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="text-center">
+    <%= link_to "New employee", new_staff_path, class: "btn btn-warning logo-gr-btn btn-lg m-3" %>
+  </div>
+</div>

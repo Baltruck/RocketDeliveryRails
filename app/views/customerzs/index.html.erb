@@ -1,0 +1,38 @@
+<p style="color: green"><%= notice %></p>
+
+<div class="container">
+  <h1 class="text-center">Customers</h1>
+
+  <table class="table table-striped custom-bordered mx-auto" style="max-width: 80%;">
+    <thead>
+      <tr>
+        <th class="text-center table-custom-head">User</th>
+        <th class="text-center table-custom-head">Address</th>
+        <th class="text-center table-custom-head">Phone</th>
+        <th class="text-center table-custom-head">Email</th>
+        <th class="text-center table-custom-head">Active</th>
+        <th class="text-center table-custom-head">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @customerzs.each do |customerz| %>
+        <tr>
+          <td class="text-center"><%= customerz.user_id %></td>
+          <td class="text-center"><%= customerz.address_id %></td>
+          <td class="text-center"><%= customerz.phone %></td>
+          <td class="text-center"><%= customerz.email %></td>
+          <td class="text-center"><%= customerz.active ? 'Yes' : 'No' %></td>
+          <td class="text-center">
+            <%= link_to "Show", customerz, class: "btn btn-primary logo-gr-btn btn-sm me-2" %>
+            <%= link_to "Edit", edit_customerz_path(customerz), class: "btn btn-secondary logo-or-btn btn-sm me-2" %>
+            <%= link_to "Delete", customerz, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="text-center">
+    <%= link_to "New customer", new_customerz_path, class: "btn btn-warning logo-gr-btn btn-lg m-3" %>
+  </div>
+</div>

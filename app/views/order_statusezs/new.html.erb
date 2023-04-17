@@ -1,0 +1,14 @@
+<div class="container">
+  <h1 class="text-center">New order status</h1>
+
+  <div class="card mx-auto table-custom-head custom-card" style="max-width: 80%;">
+    <div class="card-body text-center">
+      <%= render "form", order_statusez: @order_statusez %>
+    </div>
+  </div>
+            
+        
+  <div class="text-center mt-3">
+    <%= link_to "Back to order statuses", order_statusezs_path, class: "btn btn-warning logo-gr-btn btn-lg" %>
+  </div>
+</div>

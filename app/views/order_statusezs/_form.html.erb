@@ -1,0 +1,23 @@
+<%= form_with(model: @order_statusez, url: order_statusezs_path) do |form| %>
+
+  <% if @order_statusez.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@order_statusez.errors.count, "error") %> prohibited this order status from being saved:</h2>
+
+      <ul>
+        <% @order_statusez.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.submit "Submit", class: "btn btn-warning logo-gr-btn magin-top-btn" %>
+  </div>
+<% end %>

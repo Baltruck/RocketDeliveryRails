@@ -1,0 +1,96 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+ @import "bootstrap";
+
+ html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .alert {
+    margin: 0;
+    padding: 0;
+    color:red;
+  }
+  
+  .navbar-cool {
+    background-color: #2c2b2a;
+    width: 100%;
+  }
+
+  .navbar {
+    padding: 0;
+  }
+
+  .rdlogo {
+  position: absolute;
+   margin-top: 0.8%;
+   margin-left: 0.5%;
+   background-color: #2c2b2a;
+   top: 130%;
+   width: 12%;
+   height: auto!important;
+  }
+
+  .white-text {
+    color: white!important;
+    font-size: large;
+  }
+
+  .RFDlink {
+    margin-left: 0.5%;
+  }
+  
+  .main-image-custom {
+    width: 90%;
+    height: 90%;
+    margin: 2%;
+    padding: 0;
+    border-radius: 5rem;
+  }
+
+  .custom-bordered th,
+  .custom-bordered td {
+    border: 5px solid #2c2b2a;
+    border-radius: 7px;
+  }
+  .custom-bordered {
+    border-collapse: separate;
+  }
+
+  .table-custom-head {
+    background-color: #2c2b2a!important;
+    color: white;
+  }
+
+  .custom-card {
+    border: 5px solid #2c2b2a;
+    border-radius: 7px!important;
+  }
+
+  .magin-top-btn {
+    margin-top: 1%;
+  }
+
+  .logo-or-btn {
+    color: #E8A941;
+    background-color: #2c2b2a;
+  }
+
+  .logo-gr-btn {
+    color: #2c2b2a;
+    background-color: #E8A941;
+  }

@@ -1,0 +1,15 @@
+<div class="container">
+  <h1 class="text-center">Editing order</h1>
+
+  <div class="card mx-auto table-custom-head custom-card" style="max-width: 80%;">
+    <div class="card-body text-center">
+      <%= render "form", orderz: @orderz %>
+    </div>
+  </div>
+    
+  <div class="text-center mt-3">
+    <%= link_to "Show this orderz", @orderz, class: "btn btn-primary logo-or-btn btn-lg me-2" %>
+    <%= link_to "Back to orderzs", orderzs_path, class: "btn btn-warning logo-gr-btn btn-lg" %>
+  </div>
+</div>
+

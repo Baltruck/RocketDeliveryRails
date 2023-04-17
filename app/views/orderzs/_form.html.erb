@@ -1,0 +1,38 @@
+<%= form_with(model: orderz) do |form| %>
+  <% if orderz.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(orderz.errors.count, "error") %> prohibited this orderz from being saved:</h2>
+
+      <ul>
+        <% orderz.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :restaurant_id, "Restaurant" %>
+    <%= form.select :restaurant_id, Restaurant.all.map {|restaurant| [restaurant.name, restaurant.id]}, { include_blank: true, prompt: "Select a restaurant" }, class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :customer_id, "Customer" %>
+    <%= form.select :customer_id, Customer.all.map {|customer| [customer.email, customer.id]}, { include_blank: true, prompt: "Select a costumer" }, class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :order_statuse_id, "Order_statuse" %>
+    <%= form.select :order_status_id, OrderStatusezs.all.map {|order_statuse| [order_statuse.name, order_statuse.id]}, { include_blank: true, prompt: "Select an order status" }, class: "form-control" %>
+  </div>
+
+
+  <div>
+    <%= form.label :restaurant_rating, style: "display: block" %>
+    <%= form.number_field :restaurant_rating %>
+  </div>
+
+  <div>
+    <%= form.submit "Submit", class: "btn btn-warning logo-gr-btn magin-top-btn" %>
+  </div>
+<% end %>

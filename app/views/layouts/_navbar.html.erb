@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="navbar-cool">
+    <%= link_to image_tag("logo-transparent-png.png", alt: "Logo", class: "navbar-brand-logo rdlogo", width: "auto", style: "height: 7rem; border-radius: 20%;"), root_path %>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav  RFDlink">
+        <li class="nav-item">
+          <a class="nav-link white-text" href="/">RFD Admin</a>
+        </li>
+      </ul>
+      <% if user_signed_in? %>
+        <ul class="navbar-nav mx-auto d-flex align-items-center">
+        <li class="nav-item me-3">
+        <a class="nav-link white-text" href="/uzers">Users</a>
+      </li>
+          <li class="nav-item me-3">
+            <a class="nav-link white-text" href="/staffs">Employees</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link white-text" href="/reztaurants">Restaurants</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link white-text" href="/addressezs">Adresses</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link white-text" href="/customerzs">Customers</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link white-text" href="/productzs">Products</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link white-text" href="/product_orderzs">Products Orders</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link white-text" href="/orderzs">Orders</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link white-text" href="/order_statusezs">Order Statuses</a>
+          </li>
+        </ul>
+      <% end %>
+      <ul class="navbar-nav d-flex align-items-center">
+        <% if user_signed_in? %>
+          <li class="nav-item me-3 d-flex align-items-center">
+            <div class="white-text">Welcome <%= current_user.email %></div>
+          </li>
+          <li class="nav-item white-text">
+            <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-link nav-link white-text" %>
+          </li>
+        <% else %>
+          <li class="nav-item white-text">
+            <%= button_to "Sign in", new_user_session_path, class: "btn btn-link nav-link white-text" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

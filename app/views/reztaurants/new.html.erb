@@ -1,0 +1,15 @@
+<div class="container">
+  <h1 class="text-center">New restaurant</h1>
+
+  <div class="card mx-auto table-custom-head custom-card" style="max-width: 80%;">
+    <div class="card-body text-center">
+      <%= render "form", reztaurant: @reztaurant %>
+    </div>
+  </div>
+
+
+  <div class="text-center mt-3">
+    <%= link_to "Back to restaurants", reztaurants_path, class: "btn btn-warning logo-gr-btn btn-lg" %>
+  </div>
+</div>
+
