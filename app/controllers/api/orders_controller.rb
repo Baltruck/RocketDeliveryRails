@@ -1,6 +1,7 @@
 module Api
   class OrdersController < ApplicationController
     before_action :set_order, only: [:set_status]
+    skip_before_action :verify_authenticity_token
 
     def create
       restaurant = Restaurant.find_by(id: params[:restaurant_id])

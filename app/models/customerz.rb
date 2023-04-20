@@ -2,7 +2,7 @@ class Customerz < ApplicationRecord
     self.table_name = 'customers'
     belongs_to :user
     belongs_to :address
-    has_many :order
-
-    validates :user_id, uniqueness: true
+    has_many :orders
+    validates :user_id, :address_id, :phone, :active, presence: true
+    validates_uniqueness_of :user_id
 end

@@ -5,6 +5,10 @@ module Api
 
     # GET /products or /products.json
     def index
+      restaurant_id = params[:restaurant_id]
+      if restaurant_id
+        @restaurant = Restaurant.find_by(id: restaurant_id)
+      end
       if @restaurant
         @products = @restaurant.products.select(:id, :name, :cost)
         render json: @products, status: :ok
