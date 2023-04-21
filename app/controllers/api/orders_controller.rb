@@ -42,10 +42,17 @@ module Api
     
 
     def index
+      user_type = params[:type]
+      id = params[:id]
+  
       if params[:type].present? && params[:id].present?
-        if ['customer'].include?(params[:type]) 
+        if ['customer'].include?(params[:type])
           @orders = Order.joins(:customer).where(customers: { user_id: params[:id] }) if params[:type] == 'customer'
-          render json: @orders
+          puts @orders.inspect
+  
+          orders = Order.user_orders(user_type, id)
+          render json: orders.map(&method(:format_order_long)), status: :ok
+  
         else
           render json: { error: "Invalid user type" }, status: :unprocessable_entity
         end
@@ -53,20 +60,30 @@ module Api
         render json: { error: "Both 'user type' and 'id' parameters are required" }, status: :bad_request
       end
     end
-    
-    def set_status
-      new_status = params[:status]
-
-      unless ["pending", "in progress", "delivered"].include?(new_status)
-        render json: { error: "Invalid status" }, status: :unprocessable_entity
-        return
-      end
-
-      if @order.update(order_status: OrderStatus.find_or_create_by(name: new_status))
-        render json: { message: "Order status updated successfully" }, status: :ok
-      else
-        render json: { error: "Failed to update order status" }, status: :unprocessable_entity
-      end
+  
+    def format_order_long(order)
+      {
+        id: order.id,
+        customer_id: order.customer.id,
+        customer_name: order.customer.user.name,
+        customer_address: order.customer.address.full_address,
+        restaurant_id: order.restaurant.id,
+        restaurant_name: order.restaurant.name,
+        restaurant_address: order.restaurant.address.full_address,
+        courier_id: order.courier&.id,
+        courier_name: order.courier&.user&.name,
+        status: order.order_status.name,
+        products: order.product_orders.map do |po|
+          {
+            product_id: po.product.id,
+            product_name: po.product.name,
+            quantity: po.product_quantity,
+            unit_cost: po.product_unit_cost,
+            total_cost: po.product_quantity * po.product_unit_cost
+          }
+        end,
+        total_cost: order.total_cost
+      }
     end
 
     private
