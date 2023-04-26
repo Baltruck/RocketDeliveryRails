@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     post "orders", to: "orders#create"
     get "account", to: "account#index"
     post "account", to: "account#updated"
+    # post 'orders/send_sms', to: 'orders#send_sms'
   end
   
 
