@@ -2,12 +2,6 @@ require 'rubygems'
 require 'twilio-ruby'
 require 'dotenv/load'
 
-# Rails models
-# require_relative './config/environment'
-
-# Get infos from database
-user = User.find(Customer.first.user_id) # Remplacez 'Customer.first' par la logique nécessaire pour trouver le bon client
-order = Order.last # Remplacez 'Order.last' par la logique nécessaire pour trouver la bonne commande
 
 # Message to send
 message_body = "Hello is on its way!"
