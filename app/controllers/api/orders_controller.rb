@@ -39,20 +39,99 @@ module Api
       render json: @order, status: :ok
     end
     
+    # def set_status
+    #   if params[:order_status].nil?
+    #     render json: { error: "Order status is required" }, status: :bad_request
+    #     return
+    #   end
     
+    #   status = OrderStatus.find_by(name: params[:order_status])
+    
+    #   if status.nil?
+    #     render json: { error: "Invalid order status" }, status: :unprocessable_entity
+    #     return
+    #   end
+    
+    #   @order.order_status = status
+    
+    #   if @order.save
+    #     render json: @order, status: :ok
+    #   else
+    #     render json: { error: "Failed to update the order status" }, status: :unprocessable_entity
+    #   end
+    # end
+
+    def set_status
+      @order = Order.find_by(id: params[:id])
+    
+      puts "Current order status: #{@order.order_status.name}" # Ajout du puts pour déboguer
+    
+      case @order.order_status.name
+      when "pending"
+        new_status_name = "in progress"
+      when "in progress"
+        new_status_name = "delivered"
+      when "delivered"
+        render json: { error: "Order has already been delivered" }, status: :unprocessable_entity and return 
+      else
+        render json: { error: "Invalid order status" }, status: :unprocessable_entity and return
+      end
+    
+      new_status = OrderStatus.find_by(name: new_status_name)
+    
+      puts "New status name: #{new_status_name}" # Ajout du puts pour déboguer
+      puts "New status object: #{new_status.inspect}" # Ajout du puts pour déboguer
+    
+      # Vérifier si new_status existe
+      if new_status.nil?
+        render json: { error: "New order status not found" }, status: :unprocessable_entity and return
+      end
+    
+      if @order.update(order_status: new_status)
+        render json: @order, response: :success
+      else
+        # Afficher les erreurs de validation
+        puts @order.errors.full_messages
+        render json: { error: "Failed to update the order status" }, status: :unprocessable_entity
+      end
+    end
+    
+    
+    
+
+    # def index
+    #   user_type = params[:type]
+    #   id = params[:id]
+  
+    #   if params[:type].present? && params[:id].present?
+    #     if ['customer'].include?(params[:type])
+    #       @orders = Order.joins(:customer).where(customers: { user_id: params[:id] }) if params[:type] == 'customer'
+    #       puts @orders.inspect
+  
+    #       orders = Order.user_orders(user_type, id)
+    #       render json: orders.map(&method(:format_order_long)), status: :ok
+  
+    #     else
+    #       render json: { error: "Invalid user type" }, status: :unprocessable_entity
+    #     end
+    #   else
+    #     render json: { error: "Both 'user type' and 'id' parameters are required" }, status: :bad_request
+    #   end
+    # end
 
     def index
       user_type = params[:type]
       id = params[:id]
-  
+    
       if params[:type].present? && params[:id].present?
-        if ['customer'].include?(params[:type])
-          @orders = Order.joins(:customer).where(customers: { user_id: params[:id] }) if params[:type] == 'customer'
-          puts @orders.inspect
-  
-          orders = Order.user_orders(user_type, id)
-          render json: orders.map(&method(:format_order_long)), status: :ok
-  
+        if ['customer', 'courier'].include?(params[:type])
+          if user_type == 'customer'
+            @orders = Order.joins(:customer).where(customers: { user_id: params[:id] })
+          elsif user_type == 'courier'
+            @orders = Order.joins(:courier).where(couriers: { user_id: params[:id] })
+          end
+    
+          render json: @orders.map(&method(:format_order_long)), status: :ok
         else
           render json: { error: "Invalid user type" }, status: :unprocessable_entity
         end
