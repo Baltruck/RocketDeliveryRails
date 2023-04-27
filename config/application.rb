@@ -1,4 +1,6 @@
 require_relative "boot"
+# require 'notify'
+
 
 require "rails/all"
 

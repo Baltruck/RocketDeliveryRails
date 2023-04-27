@@ -6,6 +6,55 @@ module Api
     require 'rubygems'
     require 'twilio-ruby'
     require 'dotenv/load'
+    require 'httparty'
+
+    def send_email_notification(email, subject, body, order_id, user_name)
+      api_key = ENV['NOTIFY_API_KEY']
+      client_id = ENV['NOTIFY_X_ClientId']
+      secret_key = ENV['NOTIFY_X_Secretkey']
+    
+      url = "https://api.notify.eu/notification/send"
+    
+      headers = {
+        'Authorization' => "Bearer #{api_key}",
+        'Content-Type' => 'application/json',
+        'X-ClientId' => client_id,
+        'X-SecretKey' => secret_key
+      }
+    
+      payload = {
+        # to: email,
+        # subject: subject,
+        # body: body,
+        message: {
+          notificationType: "email",
+          language: "en",
+          params: {
+            order_id: order_id,
+            user_name: user_name
+          },
+          transport: [
+            {
+              type: "patate",
+              recipients: {
+                to: [
+                  {
+                    name: user_name,
+                    recipient: email
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    
+      response = HTTParty.post(url, headers: headers, body: payload.to_json)
+
+    end
+    
+    
+    
 
     def create
       restaurant = Restaurant.find_by(id: params[:restaurant_id])
@@ -54,13 +103,15 @@ module Api
     body: "Order Received! Thank You! Order ##{order_id} for #{user_name}",
     from: '+16812216638',
      to: '+14182786747'
+     # replace the line above with the line below to actually send the message
      # to: customer.phone_number
   )
-elsif confirmation_message == 'email'
-  # code to send email confirmation
-# else
-#   render json: { error: "Invalid confirmation message" }, status: :bad_request
-#   return
+elsif confirmation_message == 'email' || confirmation_message == 'both'
+  email_subject = "Confirmation de commande"
+  email_body = "Commande reçue ! Merci ! Commande n°#{order_id} pour #{user_name}"
+  send_email_notification('optimix@live.ca', email_subject, email_body, order_id, user_name)
+    # replace the line above with the line below to actually send the message
+    # send_email_notification(customer.email, email_subject, email_body, order_id, user_name)
 end
 
       render json: @order, status: :ok

@@ -54,6 +54,7 @@ gem 'faker'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'twilio-ruby'
+gem 'httparty'
 
 
 group :development, :test do
