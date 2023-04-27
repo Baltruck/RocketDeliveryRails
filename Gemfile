@@ -53,6 +53,7 @@ gem 'bootstrap', '~> 5.1.0'
 gem 'faker'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'dotenv-rails', groups: [:development, :test]
+gem 'twilio-ruby'
 
 
 group :development, :test do

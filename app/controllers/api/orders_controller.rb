@@ -3,10 +3,18 @@ module Api
     before_action :set_order, only: [:set_status]
     skip_before_action :verify_authenticity_token
 
+    require 'rubygems'
+    require 'twilio-ruby'
+    require 'dotenv/load'
+
     def create
       restaurant = Restaurant.find_by(id: params[:restaurant_id])
       customer = Customer.find_by(id: params[:customer_id])
       products = params[:products]
+      user = User.find_by(id: params[:customer_id])
+      user_name = user.name
+      confirmation_message = params[:confirmation_message]
+      order_id = params[:id]
     
       if params[:restaurant_id].nil? || params[:customer_id].nil? || products.nil? || products.empty?
         render json: { error: "Restaurant ID, customer ID, and products are required" }, status: :bad_request
@@ -31,11 +39,30 @@ module Api
             return
           end
         end
+        order_id = @order.id
       else
         render json: { error: "Failed to create the order" }, status: :unprocessable_entity
         return
       end
     
+ # CONFIRMATION MESSAGE
+ if confirmation_message == 'phone' || confirmation_message == 'both'
+  account_sid = ENV['TWILIO_ACCOUNT_SID']
+  auth_token = ENV['TWILIO_AUTH_TOKEN']
+  @client = Twilio::REST::Client.new account_sid, auth_token
+  message = @client.messages.create(
+    body: "Order Received! Thank You! Order ##{order_id} for #{user_name}",
+    from: '+16812216638',
+     to: '+14182786747'
+     # to: customer.phone_number
+  )
+elsif confirmation_message == 'email'
+  # code to send email confirmation
+# else
+#   render json: { error: "Invalid confirmation message" }, status: :bad_request
+#   return
+end
+
       render json: @order, status: :ok
     end
 
