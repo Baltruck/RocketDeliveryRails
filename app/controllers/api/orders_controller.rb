@@ -30,7 +30,6 @@ module Api
             order_id: order_id,
             user_name: user_name,
             restaurant_name: restaurant_name,
-            total_cost: total_cost,
           },
           transport: [
             {
@@ -104,9 +103,12 @@ module Api
     body: "Order Received! Thank You! Order ##{order_id} for #{user_name}",
     from: '+16812216638',
      to: '+14182786747'
+      # replace the line above with the line below to send the message to the customer
+      #to: customer.phone_number
      
   )
 elsif confirmation_message == 'email' || confirmation_message == 'both'
+  total_cost = sprintf('%.2f', @order.total_cost / 100.0).gsub('.', ',')
   email_subject = "Confirmation de commande"
   email_body = "Commande reçue ! Merci ! Commande n°#{order_id} pour #{user_name}"
   send_email_notification('optimix@live.ca', email_subject, email_body, order_id, user_name, restaurant_name, total_cost)
