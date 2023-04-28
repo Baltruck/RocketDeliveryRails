@@ -8,7 +8,7 @@ module Api
     require 'dotenv/load'
     require 'httparty'
 
-    def send_email_notification(email, subject, body, order_id, user_name)
+    def send_email_notification(email, subject, body, order_id, user_name, restaurant_name, total_cost)
       api_key = ENV['NOTIFY_API_KEY']
       client_id = ENV['NOTIFY_X_ClientId']
       secret_key = ENV['NOTIFY_X_Secretkey']
@@ -23,15 +23,14 @@ module Api
       }
     
       payload = {
-        # to: email,
-        # subject: subject,
-        # body: body,
         message: {
           notificationType: "email",
           language: "en",
           params: {
             order_id: order_id,
-            user_name: user_name
+            user_name: user_name,
+            restaurant_name: restaurant_name,
+            total_cost: total_cost,
           },
           transport: [
             {
@@ -64,6 +63,8 @@ module Api
       user_name = user.name
       confirmation_message = params[:confirmation_message]
       order_id = params[:id]
+      restaurant_name = restaurant.name
+      total_cost = params[:totalCost]
     
       if params[:restaurant_id].nil? || params[:customer_id].nil? || products.nil? || products.empty?
         render json: { error: "Restaurant ID, customer ID, and products are required" }, status: :bad_request
@@ -103,15 +104,15 @@ module Api
     body: "Order Received! Thank You! Order ##{order_id} for #{user_name}",
     from: '+16812216638',
      to: '+14182786747'
-     # replace the line above with the line below to actually send the message
-     # to: customer.phone_number
+     
   )
 elsif confirmation_message == 'email' || confirmation_message == 'both'
   email_subject = "Confirmation de commande"
   email_body = "Commande reçue ! Merci ! Commande n°#{order_id} pour #{user_name}"
-  send_email_notification('optimix@live.ca', email_subject, email_body, order_id, user_name)
-    # replace the line above with the line below to actually send the message
-    # send_email_notification(customer.email, email_subject, email_body, order_id, user_name)
+  send_email_notification('optimix@live.ca', email_subject, email_body, order_id, user_name, restaurant_name, total_cost)
+  # replace the line above with the line below to send the email to the customer
+  #send_email_notification('customer_email', email_subject, email_body, order_id, user_name, restaurant_name, total_cost)
+    
 end
 
       render json: @order, status: :ok
