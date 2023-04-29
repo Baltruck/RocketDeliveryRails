@@ -13,6 +13,16 @@
 -  Run `rails db:seed`
 -  Run `rails s`
 
+### Create a .env file in the root directory and add the following variables
+TWILIO_ACCOUNT_SID=
+TWILIO_AUTH_TOKEN=
+NOTIFY_API_KEY=
+NOTIFY_X_ClientId=
+NOTIFY_X_Secretkey=
+NOTIFY_X_EMAIL_FROM=
+
+
+
 # Documents de recherche
 
 ## Base de données relationnelles et SQL
